@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Portofolio Saya</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            background: #f4f6f8;
+            color: #222;
+        }
+        .slide-left {
+        opacity: 0;
+        transform: translateX(-10px);
+        animation: slideInLeft 1.5s ease-out forwards;
+        }
+
+        .delay1 { animation-delay: 0.5s; }
+        .delay2 { animation-delay: 1s; }
+
+        @keyframes slideInLeft {
+        from {
+        opacity: 0;
+        transform: translateX(-100px);
+        }
+        to {
+        opacity: 1;
+        transform: translateX(0);
+        }
+        }   
+
+        header {
+            background: linear-gradient(90deg, #0f113f, #34354f);
+            color: #fff;
+            padding: 40px 0 20px 0;
+            text-align: center;
+        }
+
+        header img {
+            width: 120px;
+            border-radius: 50%;
+            border: 4px solid #fff;
+            margin-bottom: 15px;
+        }
+        h1 {
+            margin: 10px 0 5px 0;
+            font-size: 2.5em;
+            font-weight: 700;
+        }
+        h2 {
+            color: #4e54c8;
+            margin-top: 40px;
+            font-size: 1.5em;
+            border-bottom: 2px solid #8f94fb;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+        .slide-up {
+        opacity: 0;
+        transform: translateY(100px); /* mulai dari bawah */
+        animation: slideInUp 1.5s ease-out forwards;
+        }
+
+        .delay1 { animation-delay: 0.5s; }
+        .delay2 { animation-delay: 1s; }
+        .delay3 { animation-delay: 1.5s; }
+
+        @keyframes slideInUp {
+        from {
+        opacity: 0;
+        transform: translateY(100px);
+        }
+        to {
+        opacity: 1;
+        transform: translateY(0);
+        }
+    }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            background: #fff;
+            box-shadow: 0 4px 24px rgba(78,84,200,0.08);
+            border-radius: 16px;
+            margin-top: -20px;
+            position: relative;
+            text-align: justify;
+            z-index: 2;
+        }
+        .about, .skills, .projects, .contact {
+            margin-bottom: 30px;
+        }
+        .skills-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
+        }
+        .skills-list span {
+            background: #e0e3fa;
+            color: #4e54c8;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 1em;
+            font-weight: 500;
+        }
+        .projects-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-top: 15px;
+        }
+        .project-card {
+            background: #0d263f;
+            border-radius: 12px;
+            padding: 18px;
+            box-shadow: 0 2px 8px rgba(78,84,200,0.07);
+            transition: transform 0.2s;
+        }
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+        .project-card h3 {
+            margin: 0 0 8px 0;
+            color: #ffffff;
+            font-size: 1.15em;
+            text-align: center;
+        }
+        .project-card p {
+            margin: 0;
+            font-size: 0.98em;
+            color: #ffffff;
+            text-align: center;
+        }
+        .contact-info {
+            margin-top: 10px;
+            font-size: 1.1em;
+            text-align: center;
+        }
+        .contact-info a {
+            color: #4e54c8;
+            text-decoration: none;
+            margin-right: 18px;
+            transition: color 0.2s;
+        }
+        .contact-info a:hover {
+            color: #8f94fb;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px 5px;
+            }
+            h1 {
+                font-size: 2em;
+            }
+            h2 {
+                font-size: 1.2em;
+            }
+        }
+        /* Menu titik 3 di pojok kanan atas */
+        .menu-container {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        }
+
+        .menu-button {
+        background: none;
+        border: none;
+        font-size: 24px;
+        color: white;
+        cursor: pointer;
+        }
+
+        .menu-content {
+        display: none;
+        position: absolute;
+        right: 0;
+        margin-top: 5px;
+        background-color: white;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        min-width: 150px;
+        box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+        z-index: 1000;
+        }
+
+        .menu-content a {
+        display: block;
+        padding: 10px;
+        text-decoration: none;
+        color: black;
+        }
+
+        .menu-content a:hover {
+        background-color: #f0f0f0;
+        }
+
+        .menu-content.show {
+        display: block;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Pictures\Pribadi.jpg" alt="Foto Profil">
+        <h1 class="slide-left">RUDI IKFAN MAULANA</h1>
+        <p class="slide-left delay1">Industrial Engineer</p>
+    <div class="menu-container">
+      <button class="menu-button">⋮</button>
+      <div class="menu-content">
+        <a href="gg.html">Home</a>
+        <a href="Resume.html">Resume</a>
+        <a href="Sertificate.html">Sertificate</a>
+        <a href="Project.html">Project Photo</a>
+      </div>
+    </div>
+    </header>
+    <div class="container">
+        <section class="about">
+            <h2 class="slide-up">About Me</h2>
+            <p class="slide-up delay1">
+                As an engineer, I am passionate about books and teaching. I have taught science subjects in middle school, such as physics, biology, and mathematics. At college, I taught several subjects in practicums, including industrial statistics, probability distribution, engineering drawing with CATIA and AutoCAD, manufacturing database systems with MS Access, and product design and development. I also enjoy writing. During college, I wrote several articles. I was also involved in laboratory projects that required writing, such as preparing proposals, assistant writing guidelines, modules, and PowerPoint presentations. In addition, I have written simple essays related to philosophy and literature. In essence, I enjoy learning and expanding my knowledge.
+            </p>
+        </section>
+        <section class="skills">
+            <h2 class="slide-up">Skills</h2>
+            <div class="skills-list">
+                <span class="slide-up delay1">Basic HTML</span>
+                <span class="slide-up delay1">Basic CSS</span>
+                <span class="slide-up delay1">Basic JavaScript</span>
+                <span class="slide-up delay1">Basic ArduinoIDE</span>
+                <span class="slide-up delay1">Tableau</span>
+                <span class="slide-up delay1">UI/UX Design</span>
+                <span class="slide-up delay1">Figma</span>
+                <span class="slide-up delay1">ProModel</span>
+                <span class="slide-up delay1">GitHub</span> 
+                <span class="slide-up delay1">CATIA</span>
+                <span class="slide-up delay1">AutoCAD</span>
+                <span class="slide-up delay1">SketchUp</span>
+                <span class="slide-up delay1">Microsoft Office</span>
+                <span class="slide-up delay1">Leadership</span>
+                <span class="slide-up delay1">writing</span>
+                <span class="slide-up delay1">English</span>
+            </div>
+        </section>
+        <section class="projects">
+            <h2 class="slide-up">Current Projects</h2>
+            <div class="projects-list">
+                <div class="project-card">
+                    <h3 class="slide-up">Portofolio website</h3>
+                    <p class="slide-up">Building a website for personal portofolio.</p>
+                </div>
+                <div class="project-card">
+                    <h3 class="slide-up">Laboratory Website development</h3>
+                    <p class="slide-up">Developing a website for a laboratory to showcase research projects, publications, and services.</p>
+                </div>
+                <div class="project-card">
+                    <h3 class="slide-up delay1">Writing Papers</h3>
+                    <p class="slide-up delay1">Create papers such as proposals, essays, and research articles. And following competition related to supply chain and food resilience.</p>
+                </div>
+                <div class="project-card">
+                    <h3 class="slide-up delay2">Laboratory Practicum</h3>
+                    <p class="slide-up delay2">Conducting Engineering drawing and inferential statistics practicums for students.</p>
+                </div>
+                <div class="project-card">
+                    <h3 class="slide-up delay2">Architectural/Building Design Project using SketchUp</h3>
+                    <p class="slide-up delay2">Create a building design using SketchUp.</p>
+                </div>
+                <div class="project-card">
+                    <h3 class="slide-up delay2">Product Design and Development using AutoCAD and CATIA</h3>
+                    <p class="slide-up delay2">Create a product design using AutoCAD and CATIA.</p>
+                </div>
+            </div>
+        </section>
+        <section class="contact">
+            <h2 class="slide-up">Contact</h2>
+            <div class="contact-info">
+                <a href="mailto:ikfanmaulana279@gmail.com">ikfanmaulana279@gmail.com</a>
+                <a href="https://linkedin.com/in/rudi-ikfan-maulana-005585387" target="_blank">LinkedIn</a>
+                <a href="https://github.com/ikfanmaulll" target="_blank">GitHub</a>
+            </div>
+        </section>
+    </div>
+</body>
+<script>
+  document.querySelector(".menu-button").addEventListener("click", function() {
+    document.querySelector(".menu-content").classList.toggle("show");
+  });
+
+  // Tutup menu kalau klik di luar
+  window.addEventListener("click", function(e) {
+    if (!e.target.matches('.menu-button')) {
+      document.querySelector(".menu-content").classList.remove("show");
+    }
+  });
+</script>
+</html>

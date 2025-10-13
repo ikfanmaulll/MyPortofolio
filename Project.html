@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Foto Project - Rudi Ikfan Maulana</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f6f8;
+      color: #222;
+    }
+
+    header {
+      background: linear-gradient(90deg, #0f113f, #34354f);
+      color: #fff;
+      padding: 40px 0 20px 0;
+      text-align: center;
+      position: relative;
+    }
+
+    header img {
+      width: 120px;
+      border-radius: 50%;
+      border: 4px solid #fff;
+      margin-bottom: 15px;
+    }
+
+    h1 {
+      margin: 10px 0 5px 0;
+      font-size: 2.5em;
+      font-weight: 700;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      background: #fff;
+      box-shadow: 0 4px 24px rgba(78,84,200,0.08);
+      border-radius: 16px;
+      margin-top: -20px;
+      text-align: center;
+      z-index: 2;
+      position: relative;
+    }
+
+    h2 {
+      color: #4e54c8;
+      font-size: 1.5em;
+      margin-bottom: 20px;
+    }
+
+    /* GRID FOTO */
+    .photo-gallery-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      padding: 0;
+    }
+
+    @media (max-width: 768px) {
+      .photo-gallery-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .photo-gallery-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .photo-item {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      height: 220px;
+    }
+
+    .photo-item img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .photo-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: rgba(15, 17, 63, 0.85);
+      color: #fff;
+      padding: 10px;
+      text-align: left;
+      transform: translateY(100%);
+      transition: transform 0.3s ease-in-out;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .photo-item:hover .photo-caption {
+      transform: translateY(0);
+    }
+
+    .photo-item:hover img {
+      transform: scale(1.05);
+    }
+
+    .caption-date {
+      display: block;
+      font-weight: normal;
+      font-size: 0.9em;
+      opacity: 0.9;
+    }
+
+    .caption-activity {
+      display: block;
+      font-weight: bold;
+    }
+
+    /* MENU TITIK TIGA */
+    .menu-container {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+    }
+
+    .menu-button {
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: white;
+      cursor: pointer;
+      padding: 5px 10px;
+    }
+
+    .menu-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      margin-top: 5px;
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      min-width: 150px;
+      box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
+
+    .menu-content a {
+      display: block;
+      padding: 10px;
+      text-decoration: none;
+      color: black;
+    }
+
+    .menu-content a:hover {
+      background-color: #f0f0f0;
+    }
+
+    .menu-content.show {
+      display: block;
+    }
+
+    /* MODAL POPUP */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .modal-content {
+      background: #fff;
+      border-radius: 10px;
+      max-width: 90%;
+      max-height: 80%;
+      padding: 20px;
+      overflow-x: auto;
+      display: flex;
+      gap: 15px;
+      scroll-behavior: smooth;
+    }
+
+    .modal-content img {
+      height: 250px;
+      border-radius: 10px;
+      object-fit: cover;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .close-btn {
+      color: white;
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 30px;
+      cursor: pointer;
+    }
+    .slide-left {
+        opacity: 0;
+        transform: translateX(-10px);
+        animation: slideInLeft 1.5s ease-out forwards;
+        }
+
+        .delay1 { animation-delay: 0.5s; }
+        .delay2 { animation-delay: 1s; }
+
+        @keyframes slideInLeft {
+        from {
+        opacity: 0;
+        transform: translateX(-100px);
+        }
+        to {
+        opacity: 1;
+        transform: translateX(0);
+        }
+        }   
+  </style>
+</head>
+<body>
+  <header>
+    <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Pictures\Pribadi.jpg" alt="Foto Profil">
+    <h1 class="slide-left">RUDI IKFAN MAULANA</h1>
+    <p class="slide-left delay1">Industrial Engineer</p>
+
+    <!-- MENU TITIK TIGA -->
+    <div class="menu-container">
+      <button class="menu-button">⋮</button>
+      <div class="menu-content">
+        <a href="gg.html">Home</a>
+        <a href="Resume.html">Resume</a>
+        <a href="Sertificate.html">Sertificate</a>
+        <a href="Project.html">Project Photo</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <h2>Foto Project</h2>
+
+    <div class="photo-gallery-container">
+      <div class="photo-item" onclick="openModal('pabrik')">
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\Pabrik\SketchUp Project (1).png" alt="Pabrik">
+        <div class="photo-caption"><span class="caption-date">30 Mei 2024</span><span class="caption-activity">Desain Layout Pabrik</span></div>
+      </div>
+
+      <div class="photo-item" onclick="openModal('produk')">
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\Pabrik\SketchUp Project (1).png" alt="Rumah 1 Lantai">
+        <div class="photo-caption"><span class="caption-date">20 Okt 2024</span><span class="caption-activity">Desain Rumah 1 Lantai</span></div>
+      </div>
+
+      <div class="photo-item" onclick="openModal('ecommerce')">
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\Pabrik\SketchUp Project (1).png" alt="Rumah Minimalist 3 Sekat">
+        <div class="photo-caption"><span class="caption-date">2 Nov 2024</span><span class="caption-activity">Rumah Minimalist 3 Sekat</span></div>
+      </div>
+
+      <div class="photo-item" onclick="openModal('autocad')">
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\2.png" alt="Produk Mainan Using AutoCAD">
+        <div class="photo-caption"><span class="caption-date">2 Nov 2024</span><span class="caption-activity">Produk Mainan Using AutoCAD</span></div>
+      </div>
+
+      <div class="photo-item" onclick="openModal('product')">
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\3.png" alt="Produk Rak Obat Using AutoCAD">
+        <div class="photo-caption"><span class="caption-date">6 Okt 2022</span><span class="caption-activity">Produk Rak Obat Using CATIA</span></div>
+      </div>
+
+      <div class="photo-item" onclick="openModal('kosmetik')">
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\3.png" alt="Produk Rak Kosmetik Using CATIA">
+        <div class="photo-caption"><span class="caption-date">10 Okt 2025</span><span class="caption-activity">Produk Rak Kosmetik, Rak CD & DVD, Rak Baju</span></div>
+      </div>
+
+      <div class="photo-item" onclick="openModal('simulasi')">
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\4.png" alt="Simulasi BlynkIoT">
+        <div class="photo-caption"><span class="caption-date">12 Jul 2024</span><span class="caption-activity">Simulasi Sensor Hujan Using BlynkIoT</span></div>
+      </div>
+
+      <div class="photo-item" onclick="openModal('perancangan')">
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\4.png" alt="Simulasi Sensor Suhu">
+        <div class="photo-caption"><span class="caption-date">15 Jun 2024</span><span class="caption-activity">Simulasi Sensor Suhu Using BlynkIoT</span></div>
+      </div>
+
+      <div class="photo-item" onclick="openModal('web')">
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\SketchUp Project (2).png" alt="Web Development">
+        <div class="photo-caption"><span class="caption-date">5 Des 2024</span><span class="caption-activity">Laboratory Website Development</span></div>
+      </div>
+
+      <div class="photo-item" onclick="openModal('website')">
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\SketchUp Project (2).png" alt="Web Development">
+        <div class="photo-caption"><span class="caption-date">10 Apr 2024</span><span class="caption-activity">Portofolio Website Development</span></div>
+      </div>
+
+      <div class="photo-item" onclick="openModal('essays')">
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\SketchUp Project (3).png" alt="">
+        <div class="photo-caption"><span class="caption-date">2 Mar 2024</span><span class="caption-activity">Essays</span></div>
+      </div>
+
+      <div class="photo-item" onclick="openModal('proposal')">
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\SketchUp Project (4).png" alt="">
+        <div class="photo-caption"><span class="caption-date">20 Feb 2024</span><span class="caption-activity">Proposals</span></div>
+      </div>
+
+      <div class="photo-item" onclick="openModal('writing')">
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\6.png" alt="">
+        <div class="photo-caption"><span class="caption-date">20 Feb 2024</span><span class="caption-activity">Article</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- === SEMUA MODAL === -->
+  <div id="modal-pabrik" class="modal"><span class="close-btn" onclick="closeModal()">&times;</span>
+    <div class="modal-content">
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\Pabrik\Screenshot 2025-10-09 192540.png">
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\Pabrik\Screenshot 2025-10-09 192625.png">
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Pictures\Screenshots\Screenshot 2025-10-09 203537.png">
+    </div>
+  </div>
+  <div id="modal-produk" class="modal"><span class="close-btn" onclick="closeModal()">&times;</span>
+    <div class="modal-content">
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\SketchUp\Rumah Sederhana\Screenshot 2025-09-22 190555.png">
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\SketchUp\Rumah Sederhana\Screenshot 2025-10-10 130114.png">
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\SketchUp\Rumah Sederhana\Skema rumah minimalis.jpg">
+    </div>
+  </div>
+  <div id="modal-ecommerce" class="modal"><span class="close-btn" onclick="closeModal()">&times;</span>
+    <div class="modal-content">
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\SketchUp\Rumah Minimalist\Projek Rumah Sederhana.jpg">
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\SketchUp\Rumah Minimalist\Screenshot 2025-10-09 210730.png">
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\SketchUp\Rumah Minimalist\Screenshot 2025-10-09 205952.png">
+    </div>
+  </div>
+  <div id="modal-autocad" class="modal"><span class="close-btn" onclick="closeModal()">&times;</span>
+    <div class="modal-content">
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\Produk AutoCAD\Screenshot 2025-10-10 134348.png">
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\Produk AutoCAD\Latihan.png">
+    </div>
+  </div>
+  <div id="modal-product" class="modal"><span class="close-btn" onclick="closeModal()">&times;</span>
+    <div class="modal-content">
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\Produk CATIA\Rak Obat\[DONE] PRODUKK C2.jpg">
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\Produk CATIA\Rak Obat\[revisi] produk C2.jpg">
+    </div>
+  </div>
+  <div id="modal-kosmetik" class="modal"><span class="close-btn" onclick="closeModal()">&times;</span>
+    <div class="modal-content">
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\Produk CATIA\Rak Kosmetik.jpg">
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\Produk CATIA\RAK CD & DVD.jpg">
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\Produk CATIA\Rak Baju.jpg">
+    </div>
+  </div>
+  <div id="modal-simulasi" class="modal"><span class="close-btn" onclick="closeModal()">&times;</span>
+    <div class="modal-content">
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\IoT Project\SUHU\HUJAN\Screenshot 2025-10-10 130333.png">
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\IoT Project\SUHU\HUJAN\WhatsApp Image 2025-10-10 at 13.57.35_f7792b9d.jpg">
+    </div>
+  </div>
+  <div id="modal-perancangan" class="modal"><span class="close-btn" onclick="closeModal()">&times;</span>
+    <div class="modal-content">
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\IoT Project\SUHU\Screenshot 2025-10-10 135813.png">
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\IoT Project\SUHU\Screenshot 2025-10-10 140038.png">
+    </div>
+  </div>
+  <div id="modal-web" class="modal"><span class="close-btn" onclick="closeModal()">&times;</span>
+    <div class="modal-content">
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\WebDevelopement\Laboratory\Laboratory.png">
+        <!-- GANTI BAGIAN INI -->
+        <div style="text-align:center; margin:40px 0;">
+        <a href="https://eliteug.wordpress.com" target="_blank" style="text-decoration:none;">
+        <img src="https://s.w.org/style/images/about/WordPress-logotype-wmark-white.png" 
+         alt="WordPress Logo" 
+         style="width:100px; height:auto; background:#21759b; border-radius:50%; padding:15px; box-shadow:0 4px 10px rgba(0,0,0,0.3);">
+        </a>
+        <p style="margin-top:12px; font-family:Poppins,Arial,sans-serif; font-size:16px; color:#333;">
+        Kunjungi WordPress Lab
+        </p>
+    </div>
+
+    </div>
+  </div>
+  <div id="modal-website" class="modal"><span class="close-btn" onclick="closeModal()">&times;</span>
+    <div class="modal-content">
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\WebDevelopement\Portofolio\Portofolio.png">
+        <div style="text-align:center; margin:40px 0;">
+  <!-- Ganti link di bawah ini dengan alamat website pribadimu -->
+        <a href="https://eliteug.wordpress.com" target="_blank" style="text-decoration:none;">
+    <!-- Ganti URL di bawah ini dengan link gambar/logo websitemu -->
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\WebDevelopement\Portofolio\Web.jpeg" 
+        alt="Logo Website Pribadi" 
+        style="width:120px; height:auto; border-radius:12px; padding:10px; box-shadow:0 4px 10px rgba(0,0,0,0.2); background:white;">
+        </a>
+  <p style="margin-top:12px; font-family:Poppins,Arial,sans-serif; font-size:16px; color:#410019; font-weight:600;">
+    Kunjungi Website Saya
+  </p>
+</div>
+
+    </div>
+  </div>
+  <div id="modal-essays" class="modal"><span class="close-btn" onclick="closeModal()">&times;</span>
+    <div class="modal-content">
+        <div class="container">
+        <h2>Download Essay 1</h2>
+        <a href="https://drive.google.com/file/d/1dsydQCV7X7oyGn05DHMOtXtuelsxWEQ1/view?usp=drive_link" download class="download-btn">Download PDF</a>
+        <h2>Download Essay 2</h2>
+        <a href="https://drive.google.com/file/d/1dsydQCV7X7oyGn05DHMOtXtuelsxWEQ1/view?usp=drive_link" download class="download-btn">Download PDF</a>
+        <h2>Download Essay 3</h2>
+        <a href="https://drive.google.com/file/d/1dsydQCV7X7oyGn05DHMOtXtuelsxWEQ1/view?usp=drive_link" download class="download-btn">Download PDF</a>
+        </div>
+    </div>
+  </div>
+  <div id="modal-proposal" class="modal"><span class="close-btn" onclick="closeModal()">&times;</span>
+    <div class="modal-content">
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\Proposal\ISLI.png">
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\Proposal\ICON 3.0.png">
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\Proposal\CDP.png">
+        <div class="container">
+        <h2>Download Proposal ISLI</h2>
+        <a href="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\Proposal\ISLICAMP2025_TIM NEXUS_UNIVERSITAS GUNADARMA.pdf" download class="download-btn">Download PDF</a>
+        <h2>Download Proposal ICON 3.0</h2>
+        <a href="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\Proposal\Tim.pdf" download class="download-btn">Download PDF</a>
+        <h2>Download Proposal CDP</h2>
+        <a href="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\Proposal\[DONE] PROPOSAL CAPSTONE PROJECT_TERBARU.pdf" download class="download-btn">Download PDF</a>
+        </div>
+    </div>
+  </div>
+  <div id="modal-writing" class="modal"><span class="close-btn" onclick="closeModal()">&times;</span>
+    <div class="modal-content">
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\Article\Screenshot 2025-10-10 152219.png">
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\Article\TA.png">
+        <img src="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\Article\PI.png">
+        <div class="container">
+        <h2>Download Article</h2>
+        <a href="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\Article\Full Paper_Rudi Ikfan Maulana.pdf" download class="download-btn">Download PDF</a>
+        <h2>Download My Thesis</h2>
+        <a href="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\Article\TA Rudi Ikfan Maulana.pdf" download class="download-btn">Download PDF</a>
+        <h2>Download My Scientific Report</h2>
+        <a href="c:\Users\RUDI IKFAN MAULANA\OneDrive\Documents\LOMBA\MY PORTO\Foto Projek\Article\REVISI PI IKFAN.pdf" download class="download-btn">Download PDF</a>
+        </div>
+    </div>
+  </div>
+
+  <script>
+    // MENU TITIK 3
+    document.querySelector(".menu-button").addEventListener("click", function() {
+      document.querySelector(".menu-content").classList.toggle("show");
+    });
+
+    window.addEventListener("click", function(e) {
+      if (!e.target.matches('.menu-button')) {
+        const menuContent = document.querySelector(".menu-content");
+        if (menuContent.classList.contains('show')) menuContent.classList.remove("show");
+      }
+    });
+
+    // MODAL FUNCTION
+    function openModal(id) {
+      closeModal();
+      document.getElementById("modal-" + id).style.display = "flex";
+    }
+    function closeModal() {
+      document.querySelectorAll(".modal").forEach(m => m.style.display = "none");
+    }
+    window.addEventListener("click", function(e) {
+      if (e.target.classList.contains("modal")) closeModal();
+    });
+  </script>
+</body>
+</html>
